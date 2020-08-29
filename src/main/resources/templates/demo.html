@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<body>
+
+<h2>XIN CHAO DAY LA DEMO SSE</h2>
+<div>
+    <h3>Odd LIST</h3>
+    <ul id="list-odd">
+    </ul>
+</div>
+<div>
+    <h3>Even LIST</h3>
+    <ul id="list-even">
+    </ul>
+</div>
+
+
+</body>
+<script> 
+ $(function() {
+
+    const evtSource = new EventSource("http://localhost:8080/api/stream-flux/13");
+
+    // evtSource.onmessage = function(event) {
+    //     const newElement = document.createElement("li");
+    //     const eventList = document.getElementById("list-odd");
+
+    //     newElement.innerHTML = "message: " + event.data;
+    //     console.log("EVENT>>>>", JSON.parse(event.data));
+    //     eventList.appendChild(newElement);
+    // }
+
+    evtSource.addEventListener("odd-event", function(event) {
+        const newElement = document.createElement("li");
+        const eventList = document.getElementById("list-odd");
+
+        newElement.innerHTML = "Item >>> :"+ event.data;
+        console.log("EVENT>>>>", JSON.parse(event.data));
+        eventList.appendChild(newElement);
+    });
+
+    evtSource.addEventListener("even-event", function(event) {
+        const newElement = document.createElement("li");
+        const eventList = document.getElementById("list-even");
+
+        newElement.innerHTML = "Item >>> :" + event.data;
+        console.log("EVENT>>>>", JSON.parse(event.data));
+        eventList.appendChild(newElement);
+    })
+
+     evtSource.close();
+ })
+    
+
+</script>
+</html>
+
